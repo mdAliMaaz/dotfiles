@@ -1,8 +1,6 @@
 for_window [class="^.*"] border pixel 2
 
 set $mod Mod4
-set $i3lockwall i3lock -i ~/backgrounds/linux_wallpaper.jpg -t
-
 exec --no-startup-id picom
 exec --no-startup-id xinput set-prop "GXT7863:00 27C6:01E0 Touchpad" "libinput Tapping Enabled" 1
 exec --no-startup-id xinput set-prop "GXT7863:00 27C6:01E0 Touchpad" "libinput Natural Scrolling Enabled" 1
@@ -21,6 +19,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+bindsym $mod+x exec i3lock --show-failed-attempts -i ~/backgrounds/a_cartoon_of_a_house_on_a_cliff.png 
+
 
 # Font
 font pango:JetBrainsMono Nerd Font 14
