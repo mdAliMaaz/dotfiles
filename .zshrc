@@ -1,4 +1,4 @@
-echo "Do Algorithms in the morning."
+echo "Do Maths & Algorithms in the morning you don't have time its 2026 already.\n"
 # This line is must in order to use brew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
