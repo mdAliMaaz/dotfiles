@@ -1,12 +1,12 @@
 return {
-	"catppuccin/nvim",
-	name = "catppuccin",
+	"scottmckendry/cyberdream.nvim",
+	lazy = false,
 	priority = 1000,
+	name = "cyberdream",
 	config = function()
-		require("catppuccin").setup({
-			flavour = "mocha", -- Options: latte, frappe, macchiato, mocha
-			transparent_background = true,
+		require("cyberdream").setup({
+			transparent = true,
 		})
-		vim.cmd.colorscheme("catppuccin")
+		vim.cmd.colorscheme("cyberdream")
 	end,
 }
