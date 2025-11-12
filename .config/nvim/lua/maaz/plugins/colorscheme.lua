@@ -1,12 +1,10 @@
 return {
-	"scottmckendry/cyberdream.nvim",
+	"ellisonleao/gruvbox.nvim",
 	lazy = false,
 	priority = 1000,
-	name = "cyberdream",
+	opts = {},
 	config = function()
-		require("cyberdream").setup({
-			transparent = true,
-		})
-		vim.cmd.colorscheme("cyberdream")
+		require("gruvbox").setup()
+		vim.cmd.colorscheme("gruvbox")
 	end,
 }
