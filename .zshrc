@@ -25,6 +25,7 @@ bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
 alias ls="eza --icons=always"
+alias vi='nvim'
 
 source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
 source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh

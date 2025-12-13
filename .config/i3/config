@@ -1,25 +1,30 @@
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 1
 
 set $mod Mod4
-exec --no-startup-id picom
+set $i3lockwall i3lock --show-failed-attempts -i ~/backgrounds/trees.png
+exec_always --no-startup-id xrandr --output eDP-1 --primary --mode 1920x1080 --output HDMI-1 --mode 1360x768 --above eDP-1
 exec --no-startup-id xinput set-prop "GXT7863:00 27C6:01E0 Touchpad" "libinput Tapping Enabled" 1
 exec --no-startup-id xinput set-prop "GXT7863:00 27C6:01E0 Touchpad" "libinput Natural Scrolling Enabled" 1
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id xrdb -merge ~/.Xresources
-exec_always --no-startup-id setxkbmap -option ctrl:nocaps
 exec --no-startup-id xss-lock --transfer-sleep-lock -- $i3lockwall
 exec --no-startup-id nm-applet
 exec --no-startup-id dex --autostart --environment i3
 
-# Volume and brightness
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
-bindsym $mod+x exec i3lock --show-failed-attempts -i ~/backgrounds/a_cartoon_of_a_house_on_a_cliff.png 
+# Volume (PipeWire, fixed)
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume 54 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume 54 5%-
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute 54 toggle
+
+# Mic
+bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute 56 toggle
+
+# Brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+
+# Lock
+bindsym $mod+x exec i3lock --show-failed-attempts -i ~/backgrounds/demon.jpg
 
 
 # Font
@@ -98,51 +103,75 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes' 'i3-msg e
 
 # Resize mode
 mode "resize" {
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym semicolon resize grow width 10 px or 10 ppt
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
 }
+
 bindsym $mod+r mode "resize"
 
-# ────────────────────────────────
-# 🩵 Catppuccin Mocha Colors
-# ────────────────────────────────
+# set primary gruvbox colorscheme colors
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
 
-set $base        #1e1e2e
-set $mantle      #181825
-set $crust       #11111b
-set $text        #cdd6f4
-set $subtext     #a6adc8
-set $red         #f38ba8
-set $green       #a6e3a1
-set $yellow      #f9e2af
-set $blue        #89b4fa
-set $magenta     #cba6f7
-set $cyan        #94e2d5
-set $overlay     #6c7086
+# Green gruvbox
+# class                 border|backgr|text|indicator|child_border
+client.focused          $green $green $darkgray $green $green
+client.focused_inactive $darkgray $darkgray $yellow $darkgray $darkgray
+client.unfocused        $darkgray $darkgray $yellow $darkgray $darkgray
+client.urgent           $red $red $white $red $red
 
-# ────────────────────────────────
-# Bar (matches i3status Catppuccin)
-# ────────────────────────────────
 
 bar {
     status_command i3status --config ~/.config/i3/i3status.conf
     tray_output none
     font pango:JetBrainsMono Nerd Font 13
-    position top
 
-    colors {
-        background $base
-        statusline $text
-        separator  $overlay
+    position bottom
 
-        focused_workspace  $blue $blue $crust
-        active_workspace   $mantle $mantle $text
-        inactive_workspace $mantle $base $subtext
-        urgent_workspace   $red $red $crust
-        binding_mode       $base $yellow $crust
+ i3bar_command i3bar --transparency
+
+ colors {
+        # bar background color
+        background $bg
+        # text color used for blocks that do not have a color specified.
+        statusline $yellow
+        # workspaces section            
+        #                    border  backgr. text
+        focused_workspace    $aqua $aqua $darkgray
+        inactive_workspace   $bg $bg $yellow
+        active_workspace     $bg $bg $yellow
+        urgent_workspace     $red $red $bg
     }
 }
+
+# picom
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf --xrender-sync-fence
+
+# disable screen turning off
+exec_always --no-startup-id xset s 0 0

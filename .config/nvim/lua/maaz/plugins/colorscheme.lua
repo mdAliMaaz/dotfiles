@@ -1,13 +1,38 @@
 return {
-	"projekt0n/github-nvim-theme",
-	name = "github-theme",
-	lazy = false, -- make sure we load this during startup if it is your main colorscheme
-	priority = 1000, -- make sure to load this before all the other start plugins
+	"ellisonleao/gruvbox.nvim",
+	name = "gruvbox",
+	lazy = false,
+	priority = 1000,
 	config = function()
-		require("github-theme").setup({
-			-- ...
+		require("gruvbox").setup({
+			terminal_colors = true,
+			undercurl = true,
+			underline = true,
+			bold = true,
+			italic = {
+				strings = false,
+				comments = false,
+				operators = false,
+				folds = false,
+			},
+			strikethrough = true,
+			invert_selection = false,
+			invert_signs = false,
+			invert_tabline = false,
+			invert_intend_guides = false,
+			inverse = true,
+			contrast = "hard", -- "soft" | "medium" | "hard"
+			palette_overrides = {},
+			overrides = {
+				Normal = { bg = "none" },
+				NormalFloat = { bg = "none" },
+				SignColumn = { bg = "none" },
+				EndOfBuffer = { bg = "none" },
+			},
+			dim_inactive = false,
+			transparent_mode = true,
 		})
 
-		vim.cmd("colorscheme github_dark")
+		vim.cmd("colorscheme gruvbox")
 	end,
 }
